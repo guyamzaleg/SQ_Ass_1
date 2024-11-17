@@ -34,9 +34,11 @@ public class Library {
             throw new IllegalArgumentException("Invalid book.");
         } else if (!isISBNValid(book.getISBN())){
             throw new IllegalArgumentException("Invalid ISBN.");
-        } else if (book.getTitle() == null || book.getTitle().equals("")) {
+        }
+        else if (book.getTitle() == null || book.getTitle().equals("")) {
             throw new IllegalArgumentException("Invalid title.");
-        } else if (!isAuthorValid(book.getAuthor())) {
+        }
+        else if (!isAuthorValid(book.getAuthor())) {
             throw new IllegalArgumentException("Invalid author.");
         } else if (book.isBorrowed()) {
             throw new IllegalArgumentException("Book with invalid borrowed state.");
