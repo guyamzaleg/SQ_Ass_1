@@ -16,9 +16,10 @@ public class TestLibrary {
      DatabaseService DBS;
     @Mock
     ReviewService RS;
-
     @Mock
     Book book;
+    @Mock
+    User user;
 
 //    @BeforeAll
 //    public static void testDBService() {
@@ -413,7 +414,233 @@ public class TestLibrary {
         assertDoesNotThrow(() -> library.addBook(book) , "Book is not borrowed but exception thrown");
     }
 
-    //------------------Test registerUser------------------
+
+
+    //========================================Test registerUser========================================
+    @Test
+    public void GivenNullUser_WhenRegisterUser_ThenThrowException() {
+        //Arrange
+        Library library = new Library(DBS , RS);
+        //Action & Assertion
+        assertThrows(IllegalArgumentException.class , () -> library.registerUser(null) , "User is null but no exception thrown");
+    }
+    //----------------ID----------------
+    @Test
+    public void GivenUserWithNullID_WhenRegisterUser_ThenThrowException() {
+        //Arrange
+        Library library = new Library(DBS , RS);
+        //Stubbing
+        when(user.getId()).thenReturn(null);
+        when(user.getName()).thenReturn("Legalname");
+        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+        //verify for not reaching the next methods
+        //TODO : verify isnt working as expected
+        verify(DBS , never()).getUserById(anyString());
+        verify(DBS , never()).registerUser(anyString() , any(User.class));
+        verify(user , never()).getName();
+        verify(user , never()).getNotificationService();
+        //Action & Assertion
+        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is null but no exception thrown");
+    }
+//    @Test
+//    public void GivenUserWithInvalidID1_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser( , anyString());
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getName();
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is Empty but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithInvalidID2_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("12345678901");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getName();
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is Empty but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithInvalidID3_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("12345678901_");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getName();
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is Empty but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithInvalidID4_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("abcdefghijkl");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getName();
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is Empty but no exception thrown");
+//    }  @Test
+//    public void GivenUserWithInvalidID5_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("1a2a3a4a5a6a");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getName();
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is Empty but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithInvalidID6_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123_56789012");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getName();
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User ID is Empty but no exception thrown");
+//    }
+//
+//    @Test
+//    public void GivenUserWithValidID1_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123456789012");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        verify(DBS , never()).getUserById(anyString());
+//        verify(DBS , never()).registerUser(anyString() , any(User.class));
+//        //Action & Assertion
+//        assertDoesNotThrow(() -> library.registerUser(user) , "user is valid but exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithValidID2_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("010101010101");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //Action & Assertion
+//        assertDoesNotThrow(() -> library.registerUser(user) , "user is valid but exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithValidID3_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123123123123");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //Action & Assertion
+//        assertDoesNotThrow(() -> library.registerUser(user) , "user is valid but exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithValidID4_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("111111111111");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //Action & Assertion
+//        assertDoesNotThrow(() -> library.registerUser(user) , "user is valid but exception thrown");
+//    }
+//    //----------------Name----------------
+//    @Test
+//    public void GivenUserWithNullName_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123456789012");
+//        when(user.getName()).thenReturn(null);
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User name is null but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithEmptyName_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123456789012");
+//        when(user.getName()).thenReturn("");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(DBS , never()).registerUser(user.getId(),user);
+//        verify(DBS , never()).getUserById(user.getId());
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User name is Empty but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithInvalidName1_WhenRegisterUser_ThenThrowException() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123456789012");
+//        when(user.getName()).thenReturn("Illegalname ");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //verify for not reaching the next methods
+//        verify(user , never()).getNotificationService();
+//        //Action & Assertion
+//        assertThrows(IllegalArgumentException.class , () -> library.registerUser(user) , "User name is invalid but no exception thrown");
+//    }
+//    @Test
+//    public void GivenUserWithValidName1_WhenRegisterUser_ThenAddUser() {
+//        //Arrange
+//        Library library = new Library(DBS , RS);
+//        //Stubbing
+//        when(user.getId()).thenReturn("123456789012");
+//        when(user.getName()).thenReturn("Legalname");
+//        when(user.getNotificationService()).thenReturn(Mockito.mock(NotificationService.class));
+//        //Action & Assertion
+//        assertDoesNotThrow(() -> library.registerUser(user) , "User name is valid but exception thrown");
+//    }
+
+
 
 
 //    @Test
